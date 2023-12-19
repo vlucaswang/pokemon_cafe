@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import schedule
 import time
 import os
+from datetime import date
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -20,6 +21,7 @@ mg_api_key = os.environ.get("MG_API_KEY")
 mg_domain = os.environ.get("MG_DOMAIN", "mg.vlucaswang.com")
 recipient_email = os.environ.get("RECIPIENT_EMAIL", "nkwdwxc@gmail.com")
 num_of_guests = 4
+day_of_month = date.today().day
 
 # Function to check for available spots
 def check_availability():
@@ -57,6 +59,8 @@ def check_availability():
                 available_slots.append(cell.text.strip())
 
         if available_slots:
+            driver.find_element(By.XPATH, "//*[contains(text(), " + str(day_of_month) + ")]").click()
+            driver.find_element(By.XPATH, "//*[@class='button']").click()
             send_email_notification(available_slots)
         else:
             print("No available slots found.")
@@ -75,6 +79,8 @@ def check_availability():
                 available_slots.append(cell.text.strip())
 
         if available_slots:
+            driver.find_element(By.XPATH, "//*[contains(text(), " + str(day_of_month) + ")]").click()
+            driver.find_element(By.XPATH, "//*[@class='button']").click()
             send_email_notification(available_slots)
         else:
             print("No available slots found.")
